@@ -1,19 +1,22 @@
 import { Form } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Axios from "axios";
 
 
 const Signup = ({history}) =>{
     const [userID, setUserID] = useState("")
     const [userPwd, setUserPwd] = useState("")
+
     
-    const submitSignup = () => {
+    
+    const submitSignup = (e) => {
+      e.preventDefault();
         Axios.post("http://localhost:3001/signup",{
             SenduserID: userID,
             SenduserPwd: userPwd, 
         }).then(()=>{
-            alert("good");
+          alert("회원가입 성공");
         });
     };
     
