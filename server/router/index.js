@@ -9,21 +9,12 @@ const { Redirect } = require('react-router');
 
 var connection = mysql.createConnection({
     host : "",
-    user : "t",
+    user : "",
     password : "",
     database : "",
 });
 
 router.get('/',(req,res)=>{
-    if(req.session.user){
-        res.send({LoggedIn: true, user: req.session.user})
-        console.log(req.session.user);
-    }else{
-        res.send({LoggedIn: false})
-    }
-});
-
-router.get('/signup',(req,res)=>{
     if(req.session.user){
         res.send({LoggedIn: true, user: req.session.user})
         console.log(req.session.user);
@@ -54,19 +45,37 @@ router.post('/', (req,res) => {
     );
 });
 
+router.get('/signup',(req,res)=>{
+    if(req.session.user){
+        res.send({LoggedIn: true, user: req.session.user})
+        console.log(req.session.user);
+    }else{
+        res.send({LoggedIn: false})
+    }
+});
+
 router.post('/signup', (req, res) => {
     const user_id = req.body.SenduserID;
     const user_pw = req.body.SenduserPwd;
     connection.query("INSERT INTO users(user_id,user_pw)values(?,?)",[user_id,user_pw],
     function(err, rows, fields){
         if(err){
-            console.log("실패");
+            res.send("실패");
         }
         else{
-            console.log("성공");
+            res.send("성공");
         }
     });
 
 })
+
+router.get('/board_main',(req,res)=>{
+    if(req.session.user){
+        res.send({LoggedIn: true, user: req.session.user})
+        console.log(req.session.user);
+    }else{
+        res.send({LoggedIn: false})
+    }
+});
 
 module.exports = router;

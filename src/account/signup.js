@@ -16,6 +16,7 @@ const Signup = ({history}) =>{
             SenduserID: userID,
             SenduserPwd: userPwd, 
         }).then(()=>{
+          history.push('/')
           alert("회원가입 성공");
         });
     };

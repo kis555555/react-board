@@ -29,6 +29,7 @@ app.use(
 );
 app.use('/',path);
 app.use('/signup',path);
+app.use('/board_main',path);
 
 const port = 3001;
 app.listen(port,() => {console.log(`Listening on port ${port}..`)});

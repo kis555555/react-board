@@ -16,7 +16,8 @@ const Main = ({history}) => {
     Axios.get("http://localhost:3001/").then((response) => {
       if(response.data.LoggedIn === true)
       {
-        setLoginStatus(response.data.user_id)
+        setLoginStatus(response.data.user_id);
+        history.push('/board_main');
       }
       console.log(response);
     });
@@ -34,6 +35,8 @@ const Main = ({history}) => {
             setLoginStatus(response.data.message);
           }else{
             setLoginStatus(response.data[0].user_id);
+            alert('로그인 성공');
+            history.push('/board_main');
           }
         });
     };
