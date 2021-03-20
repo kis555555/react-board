@@ -17,7 +17,6 @@ var connection = mysql.createConnection({
 router.get('/',(req,res)=>{
     if(req.session.user){
         res.send({LoggedIn: true, user: req.session.user})
-        console.log(req.session.user);
     }else{
         res.send({LoggedIn: false})
     }
@@ -48,7 +47,6 @@ router.post('/', (req,res) => {
 router.get('/signup',(req,res)=>{
     if(req.session.user){
         res.send({LoggedIn: true, user: req.session.user})
-        console.log(req.session.user);
     }else{
         res.send({LoggedIn: false})
     }
@@ -66,16 +64,54 @@ router.post('/signup', (req, res) => {
             res.send("성공");
         }
     });
-
 })
 
 router.get('/board_main',(req,res)=>{
     if(req.session.user){
         res.send({LoggedIn: true, user: req.session.user})
-        console.log(req.session.user);
     }else{
         res.send({LoggedIn: false})
     }
 });
+
+router.post('/board_main',(req,res) => {
+    connection.query("SELECT * FROM boards",
+    function(err,rows,fields){
+        if(err){
+            console.log("실패");
+        }else{
+            console.log("성공");
+            res.send(rows);
+        }
+    })
+});
+
+
+router.get('/board_create',(req,res)=>{
+    if(req.session.user){
+        res.send({LoggedIn: true, user: req.session.user})
+    }else{
+        res.send({LoggedIn: false})
+    }
+});
+
+router.post('/board_create', (req, res) => {
+    const title = req.body.Sendtitle;
+    const board = req.body.Sendboard;
+
+    const showdate= new Date();
+    const displaytodaysDate=showdate.getFullYear()+'/'+showdate.getMonth()+'/'+showdate.getDate();
+    //console.log(title,board,req.session.user[0].user_id);
+    //console.log(displaytodaysDate);
+    connection.query("INSERT INTO boards(title,board,author,board_date)values(?,?,?,?)",[title,board,req.session.user[0].user_id,displaytodaysDate],
+    function(err, rows, fields){
+        if(err){
+            res.send("실패");
+        }
+        else{
+            res.send("성공");
+        }
+    });
+})
 
 module.exports = router;

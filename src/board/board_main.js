@@ -5,11 +5,13 @@ import { Table, Button, Jumbotron } from 'react-bootstrap';
 const Board_main = ({history}) => {
 
     const [loginStatus, setLoginStatus] = useState("");
+    const [userID, setUserID] = useState("");
+    const [boardContent, setBoardContent] = useState([]);
 
     Axios.defaults.withCredentials = true;
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/").then((response) => {
+        Axios.get("http://localhost:3001/board_main").then((response) => {
           if(response.data.LoggedIn === true)
           {
             setLoginStatus(response.data.user_id);
@@ -19,7 +21,19 @@ const Board_main = ({history}) => {
               alert("로그인을 해주세요");
               history.push('/');
           }
-          console.log(response);
+          //console.log(response.data.user[0].user_id);
+          //setUserID(response.data.user[0].user_id);
+          //console.log(userID);
+        });
+      }, []);
+
+      useEffect(() => {
+        Axios.post("http://localhost:3001/board_main").then((response) => {
+            console.log(response.data);
+            setBoardContent(response.data);
+          //console.log(response.data.user[0].user_id);
+          //setUserID(response.data.user[0].user_id);
+          //console.log(userID);
         });
       }, []);
 
@@ -46,20 +60,20 @@ const Board_main = ({history}) => {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <td>1</td>
-                <td>What is Lorem Ipsum?</td>
-                <td>Otto</td>
-                <td>2021-03-18</td>
+            {boardContent.map(element =>
+                <tr key={element.board_no}>
+                <td>{element.board_no}</td>
+                <td><a href = "">{element.board}</a></td>
+                <td>{element.author}</td>
+                <td>{element.board_date}</td>
                 </tr>
-                <tr>
-                <td>2</td>
-                <td>It is a long established fact that a reader will be distracted by the readable content of a page when looking</td>
-                <td>Thornton</td>
-                <td>2021-03-18</td>
-                </tr>
+                ).reverse()}
             </tbody>
             </Table>
+
+           
+
+            <Button variant="primary" onClick = {()=>{history.push('/board_create')}}>Wirte</Button>
         </header>
     );
 }

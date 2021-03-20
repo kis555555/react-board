@@ -23,13 +23,14 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60 * 60 * 24,
+        expires: 60 * 60 * 60 * 1000,
     },
 })
 );
 app.use('/',path);
 app.use('/signup',path);
 app.use('/board_main',path);
+app.use('/board_create',path);
 
 const port = 3001;
 app.listen(port,() => {console.log(`Listening on port ${port}..`)});
