@@ -5,7 +5,6 @@ import { Table, Button, Jumbotron } from 'react-bootstrap';
 const Board_main = ({history}) => {
 
     const [loginStatus, setLoginStatus] = useState("");
-    const [userID, setUserID] = useState("");
     const [boardContent, setBoardContent] = useState([]);
 
     Axios.defaults.withCredentials = true;
@@ -29,7 +28,7 @@ const Board_main = ({history}) => {
 
       useEffect(() => {
         Axios.post("http://localhost:3001/board_main").then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             setBoardContent(response.data);
           //console.log(response.data.user[0].user_id);
           //setUserID(response.data.user[0].user_id);
@@ -63,7 +62,9 @@ const Board_main = ({history}) => {
             {boardContent.map(element =>
                 <tr key={element.board_no}>
                 <td>{element.board_no}</td>
-                <td><a href = "">{element.board}</a></td>
+                {/*<td><a href = {'/board_read/'+element.board_no}>{element.board}</a></td>*/}
+
+                <td onClick = {()=>{history.push('/board_read/'+element.board_no)}}>{element.title}</td>
                 <td>{element.author}</td>
                 <td>{element.board_date}</td>
                 </tr>

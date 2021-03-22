@@ -19,7 +19,7 @@ const Main = ({history}) => {
         setLoginStatus(response.data.user_id);
         history.push('/board_main');
       }
-      console.log(setLoginStatus);
+      //console.log(setLoginStatus);
     });
   }, []);
 

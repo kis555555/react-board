@@ -4,14 +4,15 @@ const mysql = require("mysql");
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const { Redirect } = require('react-router');
+const { request } = require('express');
 
 
 
 var connection = mysql.createConnection({
-    host : "",
-    user : "",
-    password : "",
-    database : "",
+    host : "database-1.cwhjrrb5xjq6.ap-northeast-2.rds.amazonaws.com",
+    user : "root",
+    password : "wlstka123",
+    database : "example",
 });
 
 router.get('/',(req,res)=>{
@@ -113,5 +114,28 @@ router.post('/board_create', (req, res) => {
         }
     });
 })
+
+
+router.get('/board_read',(req,res)=>{
+    if(req.session.user){
+        res.send({LoggedIn: true, user: req.session.user})
+    }else{
+        res.send({LoggedIn: false})
+    }
+});
+
+router.post('/board_read',(req,res) => {
+    const title = req.body.Sendtitle;
+    console.log(title);
+
+    connection.query("SELECT * FROM boards Where board_no="+title,
+    function(err,rows,fields){
+        if(err){
+            console.log("실패");
+        }else{
+            res.send(rows[0]);
+        }
+    })
+});
 
 module.exports = router;
