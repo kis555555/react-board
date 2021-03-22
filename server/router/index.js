@@ -9,10 +9,10 @@ const { request } = require('express');
 
 
 var connection = mysql.createConnection({
-    host : "database-1.cwhjrrb5xjq6.ap-northeast-2.rds.amazonaws.com",
-    user : "root",
-    password : "wlstka123",
-    database : "example",
+    host : "",
+    user : "",
+    password : "",
+    database : "",
 });
 
 router.get('/',(req,res)=>{
